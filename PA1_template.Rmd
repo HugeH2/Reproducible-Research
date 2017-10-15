@@ -1,6 +1,9 @@
 ---
 title: "PA1_template"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
+
 ---
 
 This is a response to the Peer-graded Assignment: Course Project 1 for 
@@ -11,7 +14,7 @@ This is a response to the Peer-graded Assignment: Course Project 1 for
 We'll start by reading in the data contained in 'activity.csv' and unzipping it 
 from the saved folder:
 
-```{r, echo = TRUE}
+```{r read in data, echo = TRUE}
 ##Using the data.table package to import the data
 require(data.table)
 
@@ -24,7 +27,7 @@ rm(temp)
 A summary of the raw data shows a data file with 17568 entries, but also a
 large number of missing values (represented as NA values) in the 'steps' variable.
 
-```{r, echo = TRUE}
+```{r initial data summary, echo = TRUE}
 summary(monitor_data)
 
 ```
@@ -34,7 +37,7 @@ These missing values are dealt with later on in this project.
 We'll create a data frame of the data that has been imported to work from.
 
 
-```{r, echo = TRUE}
+```{r creating data subset, echo = TRUE}
 monitor_df <- data.frame(monitor_data)
 ```
 
@@ -42,7 +45,7 @@ monitor_df <- data.frame(monitor_data)
 
 First, we need to aggregate the number of steps taken per day:
 
-```{r, echo = TRUE}
+```{r creating data set for number of steps histogram, echo = TRUE}
 monitor_hist <- aggregate(monitor_df$steps, by=list(Category=monitor_df$date), FUN = sum, na.omit = TRUE)
 
 #renaming the variables for clarity
@@ -54,7 +57,7 @@ names(monitor_hist)[names(monitor_hist)=="x"] <- "Steps"
 
 Then, we need to create a histogram showing the total number of steps taken each day:
 
-```{r, echo = TRUE}
+```{r creating aggregate number of steps histogram, echo = TRUE}
 ## Loading ggplot to create the histogram
 
 require("ggplot2")
@@ -69,7 +72,7 @@ ggplot(data=monitor_hist, aes(Date, Steps)) +
 Finally for this question, we need to report the mean and median for the total 
 number of steps per day (excluding the missing values):
 
-```{r, echo = TRUE}
+```{r showing histogram data mean and median, echo = TRUE}
 
 #The mean is rounded to two decimal places
 
@@ -81,7 +84,7 @@ paste("The median number of steps per day is:", median(na.omit(monitor_hist$Step
 
 To answer this, first we make a time series plot of the interval data:
 
-```{r, echo = TRUE}
+```{r creating time series plot for average daily activity, echo = TRUE}
 ## Loading ggplot to create the time series plot
 
 require("ggplot2")
@@ -103,28 +106,28 @@ ggplot(monitor_line, aes(interval, steps_mean)) + geom_line() +
 From this process, we can then find the five minute interval period that contains
 the maximum number of steps:
 
-```{r, echo = TRUE}
+```{r finding the interval with highest average steps, echo = TRUE}
 #Identifying a data subset that contains the maximum steps mean value
 
 monitor_line_max <- subset(monitor_line, steps_mean == max(steps_mean))
 
 ##outputting the interval with the maximum mean steps
 
-paste("The interval that the most number of steps are taken is:", monitor_line_max$interval)
+paste("The interval (time of day) that the most number of steps are taken is:", monitor_line_max$interval)
 ```
 
 ## 5) Imputing missing values
 
 As indicated earlier, there are quite a few rows with missing values. 
 
-```{r, echo = TRUE}
+```{r summary of data to look at NAs, echo = TRUE}
 summary(monitor_df)
 
 ```
 
 These missing values are all in the 'steps' variable.
 
-```{r, echo = TRUE}
+```{r number of NA rows, echo = TRUE}
 paste("The total number of missing values in the 'steps' variable is:", sum(is.na(monitor_df$steps)))
 
 ```
@@ -135,7 +138,7 @@ median values for that interval period.
 Using this approach, we create a new data set with the missing values filled in 
 with those median values.
 
-```{r, echo = TRUE}
+```{r filling in NA values with median values, echo = TRUE}
 
 monitor_no_na <- monitor_data
 
@@ -146,7 +149,7 @@ monitor_no_na$steps[is.na(monitor_no_na$steps)] <- with(monitor_no_na, ave(steps
 
 In this modified data set, there are no missing values in the 'steps' variable.
 
-```{r, echo = TRUE}
+```{r checking there are no more NAs, echo = TRUE}
 paste("The total number of missing values in the 'steps' variable in our modfied data set is now:", sum(is.na(monitor_no_na$steps)))
 
 ```
@@ -155,7 +158,7 @@ We then look at a histogram of the new data set for comparison purposes, as well
 compare the mean and median of our modified data set compared to the previous one.
 
 
-```{r, echo = TRUE}
+```{r creating a histogram of the modified data set, echo = TRUE}
 ## Loading ggplot to create the histogram
 
 require("ggplot2")
@@ -183,7 +186,7 @@ characteristics of the data.
 As two examples, the modified data set has a lower mean and median than the 
 dataset that includes the NA values.
 
-```{r, echo = TRUE}
+```{r looking at the new mean and median values, echo = TRUE}
 #calculating the new mean and median values, and then the differences between
 #the two data sets
 
@@ -206,7 +209,7 @@ Let's now look at the differences in activity by weekday and weekend.
 We'll start by assigning either 'weekdays' or 'weekends' to the cases based on 
 the date value.
 
-```{r, echo=TRUE}
+```{r identifying weekdays and weekends by date, echo=TRUE}
 
 #assigning the day type to the date value
 
@@ -222,7 +225,7 @@ paste("The data set contains ", sum(monitor_no_na$day_type == 'weekday'), "weekd
 
 Now we'll plot weekday results versus weekend results by mean steps per interval.
 
-```{r, echo=TRUE}
+```{r arranging plots of weekday versus weekend activity patterns, echo=TRUE}
 ##using gridExtra to arrange the plots at the end
 require(gridExtra)
 
