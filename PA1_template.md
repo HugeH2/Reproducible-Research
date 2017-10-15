@@ -92,7 +92,7 @@ ggplot(data=monitor_hist, aes(Date, Steps)) +
 ## Warning: Removed 8 rows containing non-finite values (stat_summary).
 ```
 
-![](PA1_template_files/figure-html/creating aggregate number of steps histogram-1.png)<!-- -->
+![](PA1_template_files/figure-html/creating_aggregate_number_of_steps_histogram-1.png)<!-- -->
 
 Finally for this question, we need to report the mean and median for the total 
 number of steps per day (excluding the missing values):
@@ -139,7 +139,7 @@ ggplot(monitor_line, aes(interval, steps_mean)) + geom_line() +
         xlab("Interval Period (5 minute periods across a day)") + ylab("Mean Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/creating time series plot for average daily activity-1.png)<!-- -->
+![](PA1_template_files/figure-html/creating_time_series_plot_for_average_daily_activity-1.png)<!-- -->
 
 From this process, we can then find the five minute interval period that contains
 the maximum number of steps:
@@ -241,7 +241,7 @@ ggplot(data=monitor_no_na_hist, aes(Date, Steps)) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-![](PA1_template_files/figure-html/creating a histogram of the modified data set-1.png)<!-- -->
+![](PA1_template_files/figure-html/creating_a_histogram_of_the_modified_data_set-1.png)<!-- -->
 
 Using the median to replace the missing values has changed some of the 
 characteristics of the data.
@@ -361,6 +361,6 @@ weekend_plot <- ggplot(monitor_weekend_line, aes(x=interval, y=steps_mean)) +
 grid.arrange(weekday_plot, weekend_plot)
 ```
 
-![](PA1_template_files/figure-html/arranging plots of weekday versus weekend activity patterns-1.png)<!-- -->
+![](PA1_template_files/figure-html/arranging_plots_of_weekday_versus_weekend_activity_patterns-1.png)<!-- -->
 
 Overall, there are fewer steps taken across the weekend than on weekdays.
